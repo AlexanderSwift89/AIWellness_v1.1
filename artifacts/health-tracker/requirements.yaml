@@ -1,0 +1,22 @@
+packages:
+  "framer-motion": "Required for smooth page transitions and micro-interactions"
+  "clsx": "Utility for constructing className strings conditionally"
+  "tailwind-merge": "Utility to merge tailwind classes without style conflicts"
+  "lucide-react": "Beautiful vector icons for the UI"
+  "date-fns": "For formatting dates in the dashboard and chat"
+
+images:
+  - path: "artifacts/health-tracker/public/images/avatar.png"
+    description: "A beautiful, minimalist 3D illustrated avatar of a healthy person smiling, soft lighting, vibrant green background"
+    aspect_ratio: "1:1"
+  - path: "artifacts/health-tracker/public/images/bot-avatar.png"
+    description: "A cute, friendly robot face icon with a leaf symbol, minimalist 3d style, clean white background, teal accents"
+    aspect_ratio: "1:1"
+  - path: "artifacts/health-tracker/public/images/empty-cart.png"
+    description: "A stylish 3D illustration of an empty shopping basket with a small plant growing out of it, soft pastel colors"
+    aspect_ratio: "1:1"
+
+notes:
+  - Using framer-motion for high-quality fluid animations
+  - Mock data is localized in a service file for easy backend swapping later
+  - Local state context used for sharing cart and deficit selections across routes
