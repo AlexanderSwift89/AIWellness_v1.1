@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta name="description" content="Персонализированный трекер здоровья и питания">
-  <meta property="og:title" content="Health Tracker">
-  <meta property="og:description" content="Трекер питания, активности и сна">
   <title>Health Tracker – Трекер здоровья и питания</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
@@ -16,67 +14,97 @@
 
     <!-- SCREEN: DASHBOARD -->
     <div class="screen screen--dashboard active" id="screen-dashboard">
-      <header class="screen__header">
-        <div class="header__user">
-          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AlexHealth&backgroundColor=b6e3f4"
-               alt="Аватар" class="header__avatar">
-          <div>
-            <h2 class="header__greeting">Привет, Алекс!</h2>
-            <p class="header__date" id="current-date"></p>
-          </div>
-        </div>
-        <button class="header__bell" aria-label="Уведомления" onclick="showToast('2 новых рекомендации')">
-          <i class="fas fa-bell"></i>
-          <span class="header__bell-badge">2</span>
+
+      <!-- Header: centered "Сегодня", calendar right -->
+      <header class="screen__header" style="position:relative;">
+        <div class="header__spacer"></div>
+        <span class="header__title-center" id="current-date">Сегодня</span>
+        <button class="header__icon-btn" aria-label="Календарь" onclick="showToast('Календарь')">
+          <i class="fas fa-calendar-alt"></i>
         </button>
       </header>
 
       <div class="screen__body" id="dashboard-body">
-        <div class="calories-card">
-          <div class="calories-card__info">
-            <p class="calories-card__label">КАЛОРИИ</p>
-            <p class="calories-card__value"><strong>1 450</strong> / 2 000</p>
-            <span class="calories-card__remaining">Осталось 550 ккал</span>
+
+        <!-- Summary track cards (Weight / Nutrition / Water / Activity) -->
+        <div class="track-cards">
+
+          <!-- Weight -->
+          <div class="track-card">
+            <div class="track-card__header">
+              <div class="track-card__icon">🎯</div>
+              <span class="track-card__label">Мой вес: 89 кг</span>
+              <button class="track-card__plus" onclick="showToast('Добавить вес')">+</button>
+            </div>
+            <div class="track-card__meta-row">
+              <div>
+                <div class="track-card__meta-label">старт</div>
+                <div class="track-card__meta-value">89 кг</div>
+              </div>
+              <div style="text-align:right">
+                <div class="track-card__meta-label">цель</div>
+                <div class="track-card__meta-value">78 кг</div>
+              </div>
+            </div>
+            <div class="track-card__bar">
+              <div class="track-card__bar-fill" style="width:0%"></div>
+            </div>
           </div>
-          <div class="calories-card__ring">
-            <svg viewBox="0 0 80 80" class="ring-svg">
-              <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="8"/>
-              <circle cx="40" cy="40" r="32" fill="none" stroke="white" stroke-width="8"
-                      stroke-dasharray="201.1" stroke-dashoffset="56.3"
-                      stroke-linecap="round" transform="rotate(-90 40 40)"/>
-            </svg>
-            <i class="fas fa-fire calories-card__ring-icon"></i>
+
+          <!-- Nutrition -->
+          <div class="track-card">
+            <div class="track-card__header">
+              <div class="track-card__icon">🥦</div>
+              <span class="track-card__label">Питание</span>
+              <button class="track-card__plus" onclick="navigateTo('chat')">+</button>
+            </div>
+            <div class="track-card__stat">1 450 из 2 000 ккал</div>
+            <div class="track-card__bar">
+              <div class="track-card__bar-fill" style="width:72%"></div>
+            </div>
           </div>
+
+          <!-- Water -->
+          <div class="track-card">
+            <div class="track-card__header">
+              <div class="track-card__icon">🫗</div>
+              <span class="track-card__label">Вода</span>
+              <button class="track-card__plus" onclick="sendQuickMessage('Выпил воды')">+</button>
+            </div>
+            <div class="track-card__stat">Выпито 1.2 из 2.5 л</div>
+            <div class="track-card__bar">
+              <div class="track-card__bar-fill" style="width:48%"></div>
+            </div>
+          </div>
+
+          <!-- Activity -->
+          <div class="track-card">
+            <div class="track-card__header">
+              <div class="track-card__icon">👟</div>
+              <span class="track-card__label">Активность</span>
+              <button class="track-card__plus" onclick="sendQuickMessage('Сделал зарядку')">+</button>
+            </div>
+            <div class="track-card__stat">0 из 500 ккал сожжено</div>
+            <div class="track-card__bar">
+              <div class="track-card__bar-fill" style="width:0%"></div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="macros-row">
-          <div class="macro-item">
-            <p class="macro-item__value">65<span class="macro-item__target">/90г</span></p>
-            <p class="macro-item__label">Белки</p>
-            <div class="progress-bar"><div class="progress-bar__fill" style="width:72%;background:#3b82f6"></div></div>
-          </div>
-          <div class="macro-item">
-            <p class="macro-item__value">45<span class="macro-item__target">/65г</span></p>
-            <p class="macro-item__label">Жиры</p>
-            <div class="progress-bar"><div class="progress-bar__fill" style="width:69%;background:#f59e0b"></div></div>
-          </div>
-          <div class="macro-item">
-            <p class="macro-item__value">180<span class="macro-item__target">/250г</span></p>
-            <p class="macro-item__label">Углеводы</p>
-            <div class="progress-bar"><div class="progress-bar__fill" style="width:72%;background:#8b5cf6"></div></div>
-          </div>
-        </div>
-
+        <!-- Deficits section -->
         <section class="section">
           <h3 class="section__title">Текущие дефициты</h3>
           <div class="deficit-list" id="deficit-list"></div>
         </section>
 
+        <!-- Recommendations -->
         <section class="section">
           <h3 class="section__title">Рекомендации</h3>
           <div class="recommendation-list" id="recommendation-list"></div>
         </section>
 
+        <!-- Today's meals -->
         <section class="section">
           <h3 class="section__title">Приёмы пищи сегодня</h3>
           <div class="meals-list" id="meals-list"></div>
@@ -88,8 +116,13 @@
 
     <!-- SCREEN: CHAT -->
     <div class="screen screen--chat" id="screen-chat">
-      <header class="screen__header screen__header--simple">
-        <h2 class="screen__header-title">Чат с ассистентом</h2>
+
+      <!-- Header: X left, "Чат" centered -->
+      <header class="screen__header" style="position:relative;">
+        <button class="header__back-btn" aria-label="Закрыть чат" onclick="showToast('Чат')">
+          <i class="fas fa-times"></i>
+        </button>
+        <span class="header__title-center">Чат</span>
         <button class="header__icon-btn" aria-label="Очистить чат" onclick="clearChat()">
           <i class="fas fa-trash-alt"></i>
         </button>
@@ -106,12 +139,14 @@
         <button class="chip" onclick="sendQuickMessage('Сделал зарядку')">🏃 Активность</button>
       </div>
 
+      <div class="chat__disclaimer">ИИ-ассистент не ставит диагноз и не заменяет врача</div>
+
       <div class="chat__input-area">
         <input type="text" class="chat__input" id="chat-input"
-               placeholder="Напишите, что вы съели..."
+               placeholder="Задать другой вопрос..."
                onkeydown="if(event.key==='Enter') sendChatMessage()">
-        <button class="chat__send-btn" onclick="sendChatMessage()">
-          <i class="fas fa-paper-plane"></i>
+        <button class="chat__send-btn" onclick="sendChatMessage()" aria-label="Отправить">
+          <i class="fas fa-microphone"></i>
         </button>
       </div>
     </div>
@@ -126,7 +161,7 @@
           <h2 class="screen__header-title" id="products-title">Продукты</h2>
           <p class="screen__header-subtitle" id="products-subtitle">Выберите дефицит на дашборде</p>
         </div>
-        <button class="header__icon-btn" id="add-all-btn" onclick="addAllToCart()" style="display:none">
+        <button class="header__icon-btn header__icon-btn--teal" id="add-all-btn" onclick="addAllToCart()" style="display:none">
           <i class="fas fa-cart-plus"></i>
         </button>
       </header>
@@ -141,8 +176,9 @@
 
     <!-- SCREEN: SHOPPING LIST -->
     <div class="screen screen--shopping" id="screen-shopping">
-      <header class="screen__header screen__header--simple">
-        <h2 class="screen__header-title">Список покупок</h2>
+      <header class="screen__header" style="position:relative;">
+        <div class="header__spacer"></div>
+        <span class="header__title-center">Список покупок</span>
         <div class="header__actions">
           <button class="header__icon-btn" onclick="shareShoppingList()">
             <i class="fas fa-share-alt"></i>
@@ -164,8 +200,8 @@
     <!-- BOTTOM NAVIGATION -->
     <nav class="bottom-nav">
       <button class="bottom-nav__item bottom-nav__item--active" onclick="navigateTo('dashboard')" id="nav-dashboard">
-        <i class="fas fa-th-large"></i>
-        <span>Дашборд</span>
+        <i class="fas fa-book-open"></i>
+        <span>Дневник</span>
       </button>
       <button class="bottom-nav__item" onclick="navigateTo('chat')" id="nav-chat">
         <i class="fas fa-comment-dots"></i>
